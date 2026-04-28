@@ -1,6 +1,6 @@
 export const config = { runtime: "edge" };
 
-const TARGET_BASE = (process.env.TARGET_DOMAIN || "").replace(/\/$/, "");
+const TARGET_BASE_THING = (process.env.TARGET_DOMAIN || "").replace(/\/$/, "");
 
 const STRIP_HEADERS = new Set([
   "host",
@@ -19,14 +19,14 @@ const STRIP_HEADERS = new Set([
 ]);
 
 export default async function handler(req) {
-  if (!TARGET_BASE) {
+  if (!TARGET_BASE_THING) {
     return new Response("Misconfigured: TARGET_DOMAIN is not set", { status: 500 });
   }
 
   try {
     const pathStart = req.url.indexOf("/", 8);
     const targetUrl =
-      pathStart === -1 ? TARGET_BASE + "/" : TARGET_BASE + req.url.slice(pathStart);
+      pathStart === -1 ? TARGET_BASE_THING + "/" : TARGET_BASE_THING + req.url.slice(pathStart);
 
     const out = new Headers();
     let clientIp = null;
